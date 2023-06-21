@@ -17,6 +17,9 @@ class TodoList extends Component {
         //console.log(store.getState())
         this.state = store.getState()
         this.changeInputValue = this.changeInputValue.bind(this)
+
+        this.storeChange = this.storeChange.bind(this)  //转变this指向
+        store.subscribe(this.storeChange) //订阅Redux的状态
     }
     render() {
         return (
@@ -28,7 +31,8 @@ class TodoList extends Component {
                         style={{ width: "250px", marginRight: "10px" }} //直接在这边加右边距，省的button写style
                         onChange={this.changeInputValue}
                     />
-                    <Button type='primary' >增加</Button>
+                    <Button type='primary' 
+                    onClick={this.clickBtn}>增加</Button>
                 </div>
                 <div
                     style={{ maigin: '10px ', width: '300px' }}
@@ -49,12 +53,22 @@ class TodoList extends Component {
 
     }
 
+    storeChange(){
+        this.setState(store.getState)
+    }
+
     changeInputValue(el){
         const action={
             type:'changeInput', /* 命名，如果提示波浪线 一般都是：没写或者写成=了 */
             value:el.target.value
         }
         /* 建立好之后 需要通过dispatch联系发送   */
+        store.dispatch(action)
+    }
+
+    clickBtn(){
+        //console.log('zelo')
+        const action ={type:'addItem'}
         store.dispatch(action)
     }
 }

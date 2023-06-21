@@ -19,5 +19,11 @@ export default(state=defaultState,action)=>{
         newState.inputValue = action.value
         return newState
     }
+    if(action.type === 'addItem'){
+        let newState = JSON.parse(JSON.stringify(state)) 
+        newState.list.push(newState.inputValue)  //push新的内容到列表中去
+        newState.inputValue = '' //设置完后文本框置空
+        return newState
+    }
     return state
 }
